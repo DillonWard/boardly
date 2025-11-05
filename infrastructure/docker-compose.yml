@@ -1,0 +1,46 @@
+services:
+  backend-dev:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: boardly-backend
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ../backend/src:/usr/src/app/src:ro
+      - ../backend/package.json:/usr/src/app/package.json:ro
+    networks:
+      - boardly-dev-network
+    command: npm run start:dev
+    restart: unless-stopped
+
+  frontend-dev:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: dev-deps
+    container_name: boardly-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    volumes:
+      - ../frontend:/app:delegated
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - boardly-dev-network
+    command: npm run dev
+    depends_on:
+      - backend-dev
+    restart: unless-stopped
+
+networks:
+  boardly-dev-network:
+    driver: bridge
+    name: boardly-dev-network
