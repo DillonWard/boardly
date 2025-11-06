@@ -1,8 +1,7 @@
-export default function Home() {
+export default function Dashboard() {
   return (
-    <div className="flex min-h-screen min-w-screen">
-
-      <div>asdasd</div>
+    <div className="h-full">
+      <div>Dashboard content</div>
     </div>
   );
 }

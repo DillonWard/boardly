@@ -4,6 +4,7 @@ import { useSession } from "@/context/session";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Header } from "@/components/Header";
+import { Sidebar } from "@/components/Sidebar";
 
 const publicRoutes = ['/login', '/register'];
 
@@ -38,9 +39,14 @@ export const RouteProtection = ({ children }: { children: React.ReactNode }) => 
         return (
             <div className="h-screen w-screen flex flex-col bg-gray-50 overflow-hidden">
                 <Header />
-                <main className="flex-1 overflow-hidden p-6">
-                        {children}
-                </main>
+                <div className="flex flex-1 overflow-hidden">
+                    <Sidebar />
+                    <main className="flex-1 overflow-hidden">
+                        <div className="h-full w-full p-4 overflow-y-auto">
+                            {children}
+                        </div>
+                    </main>
+                </div>
             </div>
         );
     }
