@@ -1,5 +1,18 @@
-
 services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: boardly-postgres
+    environment:
+      - POSTGRES_DB=boardly
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - boardly-network
+
   backend-dev:
     build:
       context: ../backend
@@ -13,11 +26,14 @@ services:
       - backend_node_modules:/usr/src/app/node_modules
       - ../backend/package.json:/usr/src/app/package.json
       - ../backend/package-lock.json:/usr/src/app/package-lock.json
-    command: sh -c "npm ci && npm run start:dev"
+    command: sh -c "npm ci && npx prisma generate && npx prisma db push && npm run start:dev"
     environment:
       - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/boardly
     networks:
       - boardly-network
+    depends_on:
+      - postgres
 
   frontend-dev:
     build:
@@ -35,7 +51,7 @@ services:
     command: sh -c "npm ci && npm run dev"
     environment:
       - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
     networks:
       - boardly-network
     depends_on:
@@ -44,6 +60,7 @@ services:
 volumes:
   frontend_node_modules:
   backend_node_modules:
+  postgres_data:
 
 networks:
   boardly-network:

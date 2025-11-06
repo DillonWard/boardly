@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { SessionProvider } from "@/context/session";
+import { AppProviders } from "@/components/Providers";
 import { RouteProtection } from "@/components/RouteProtection";
 
 import "./globals.css";
@@ -26,15 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full overflow-hidden">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden`}
       >
-        <SessionProvider>
+        <AppProviders>
           <RouteProtection>
             {children}
           </RouteProtection>
-        </SessionProvider>
+        </AppProviders>
       </body>
     </html>
   );

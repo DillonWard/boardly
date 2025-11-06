@@ -29,27 +29,26 @@ export const RouteProtection = ({ children }: { children: React.ReactNode }) => 
         (isLoggedIn?.() && publicRoutes.includes(pathname)) ||
         (!isLoggedIn?.() && !publicRoutes.includes(pathname))) {
         return (
-            <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
+            <div className="flex h-screen w-screen items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             </div>
         );
     }
 
-    if (isLoggedIn?.()) {
-        return (
-            <div className="h-screen w-screen flex flex-col bg-gray-50 overflow-hidden">
-                <Header />
-                <div className="flex flex-1 overflow-hidden">
-                    <Sidebar />
-                    <main className="flex-1 overflow-hidden">
-                        <div className="h-full w-full p-4 overflow-y-auto">
-                            {children}
-                        </div>
-                    </main>
-                </div>
+if (isLoggedIn?.()) {
+    return (
+        <div className="h-screen w-screen flex flex-col bg-gray-50 overflow-hidden">
+            <Header />
+            <div className="flex flex-1 overflow-hidden">
+                <Sidebar />
+                <main className="flex-1 overflow-hidden relative z-10">
+                    <div className="h-full w-full p-4 overflow-y-auto">
+                        {children}
+                    </div>
+                </main>
             </div>
-        );
-    }
-
-    return <div className="h-screen w-screen overflow-hidden">{children}</div>;
+        </div>
+    );
+}
+    return <div className="h-screen w-screen">{children}</div>;
 };
