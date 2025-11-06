@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "@context/session";
+import { useSession } from "@/context/session";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
@@ -41,7 +41,7 @@ export default function Register() {
             email: formData.email
         }
         login(userData);
-        router.push('/');
+        router.push('/dashboard');
     }
 
 

@@ -13,6 +13,7 @@ type SessionContextType = {
     login: (userData: User) => void;
     logout: () => void;
     isLoggedIn?: () => boolean;
+    isLoading: boolean;
 }
 
 const SessionContext = createContext<SessionContextType>({
@@ -20,16 +21,19 @@ const SessionContext = createContext<SessionContextType>({
     login: () => {},
     logout: () => {},
     isLoggedIn: () => false,
+    isLoading: true,
 });
 
 export const SessionProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true); 
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
+        setIsLoading(false);
     }, []);
 
     const login = (userData: User) => {
@@ -44,9 +48,10 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
 
     const isLoggedIn = () => {
         return user !== null;
-    }
+    };
+
     return (
-        <SessionContext.Provider value={{ user, login, logout, isLoggedIn }}>
+        <SessionContext.Provider value={{ user, login, logout, isLoggedIn, isLoading }}>
             {children}
         </SessionContext.Provider>
     );

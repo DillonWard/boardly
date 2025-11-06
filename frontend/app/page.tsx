@@ -1,8 +1,13 @@
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center min-w-screen">
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-      <div></div>
-    </div>
-  );
+export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/dashboard');
+  }, [router]);
+
+  return null;
 }
