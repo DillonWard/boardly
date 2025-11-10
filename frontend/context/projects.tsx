@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { Project, api } from '@/services/api/projects';
 
 interface ProjectsContextType {
@@ -21,7 +21,7 @@ export const ProjectsProvider: React.FC<ProjectsProviderProps> = ({ children }) 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -33,13 +33,8 @@ export const ProjectsProvider: React.FC<ProjectsProviderProps> = ({ children }) 
     } finally {
       setLoading(false);
     }
-  };
-
-
-
-  useEffect(() => {
-    fetchProjects();
   }, []);
+
 
   const value: ProjectsContextType = {
     projects,

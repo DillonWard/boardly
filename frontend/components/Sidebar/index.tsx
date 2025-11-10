@@ -22,7 +22,7 @@ export const Sidebar = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   
-  const { projects, loading } = useProjects();
+  const { projects, loading, fetchProjects } = useProjects();
 
   const toggleDropdown = (itemName: string, event: React.MouseEvent) => {
     if (openDropdowns.includes(itemName)) {
@@ -83,6 +83,11 @@ export const Sidebar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+useEffect(() => {
+  fetchProjects();
+}, []);
+
 
   return (
     <div className="w-64 h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-300">
