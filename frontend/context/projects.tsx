@@ -1,10 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react';
 import { Project, api } from '@/services/api/projects';
 
 interface ProjectsContextType {
   projects: Project[];
+  hasProjects: boolean;
   loading: boolean;
   error: string | null;
   fetchProjects: () => Promise<void>;
@@ -35,9 +36,11 @@ export const ProjectsProvider: React.FC<ProjectsProviderProps> = ({ children }) 
     }
   }, []);
 
+  const hasProjects = useMemo(() => projects.length > 0, [projects]);
 
   const value: ProjectsContextType = {
     projects,
+    hasProjects,
     loading,
     error,
     fetchProjects,
