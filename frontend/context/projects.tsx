@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react';
-import { Project, api } from '@/services/api/projects';
+import { Project, getProjects } from '@/services/api/projects';
 
 interface ProjectsContextType {
   projects: Project[];
@@ -26,7 +26,7 @@ export const ProjectsProvider: React.FC<ProjectsProviderProps> = ({ children }) 
     try {
       setLoading(true);
       setError(null);
-      const projectsData = await api.getProjects<Project[]>();
+      const projectsData = await getProjects<Project[]>();
       setProjects(projectsData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch projects');

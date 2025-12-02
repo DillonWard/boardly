@@ -10,7 +10,7 @@ FROM base AS dev-deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci && npm cache clean --force
+RUN npm ci
 
 FROM base AS builder
 WORKDIR /app

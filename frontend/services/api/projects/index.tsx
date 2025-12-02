@@ -1,22 +1,9 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+import { api } from "../index";
+import { User } from "../users";
 
-class ApiClient {
-  private baseUrl: string;
-
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-
-  async getProjects<T>(): Promise<T> {
-    const response = await fetch(`${this.baseUrl}/projects`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  }
+export async function getProjects<T>(): Promise<T> {
+  return api.get<T>('projects');
 }
-
-export const api = new ApiClient(API_BASE_URL);
 
 export interface Project {
   id: string;
@@ -24,4 +11,5 @@ export interface Project {
   description?: string;
   createdAt: string;
   updatedAt: string;
+  users: User[];
 }
