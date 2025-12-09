@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useMemo, useEffect } from 'react';
 import { User, getUsers } from '@/services/api/users';
 
 interface UserContextType {
@@ -27,7 +27,6 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({ children }) => {
             setLoading(true);
             setError(null);
             const usersData = await getUsers<User[]>();
-            console.log(usersData);
             setUsers(usersData);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch users');
@@ -36,6 +35,10 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({ children }) => {
             setLoading(false);
         }
     }, []);
+
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
     
     const value: UserContextType = {
         users,

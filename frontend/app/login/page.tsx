@@ -20,19 +20,20 @@ export default function Login(){
         });
     }
     
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        const userData = {
-            email: formData.email,
-            password: formData.password
-        };
-        console.log(userData);
-        
-        login(userData);
-        router.push('/dashboard');
+        try {
+            await login({
+                email: formData.email,
+                password: formData.password
+            });
+            router.push('/dashboard');
+        } catch (error) {
+            // Handle login error
+            console.error('Login failed:', error);
+        }
     };
-
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

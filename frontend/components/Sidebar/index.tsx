@@ -86,10 +86,10 @@ export const Sidebar = () => {
     };
   }, []);
 
-useEffect(() => {
-  fetchProjects();
-  fetchUsers()
-}, []);
+// useEffect(() => {
+//   fetchProjects();
+//   fetchUsers()
+// }, []);
 
 
   return (
