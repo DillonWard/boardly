@@ -13,17 +13,19 @@ model Project {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  users User[] @relation("ProjectUsers")
+  users       User[] @relation("ProjectUsers")
 
   @@map("projects")
 }
 
 model User {
-  id        String @id @default(cuid())
-  firstName String
-  lastName  String
-  email String  @unique
-  projects Project[] @relation("ProjectUsers")
+  id          String @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String  @unique
+  password    String
+  role        String
+  projects    Project[] @relation("ProjectUsers")
 
   @@map("users")
 }

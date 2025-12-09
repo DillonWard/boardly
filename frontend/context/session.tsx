@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, ReactNode, useEffect, useCallback } from "react";
+import * as auth from '@/services/api/auth';
 
 type User = {
     id: string;
@@ -14,19 +15,27 @@ type SessionContextType = {
     logout: () => void;
     isLoggedIn?: () => boolean;
     isLoading: boolean;
+    error: string | null;
+
 }
 
 const SessionContext = createContext<SessionContextType>({
     user: null,
-    login: () => {},
-    logout: () => {},
+    login: () => { },
+    logout: () => { },
     isLoggedIn: () => false,
     isLoading: true,
+    error: null
 });
 
-export const SessionProvider = ({ children }: { children: React.ReactNode }) => {
+interface SessionProviderProps {
+    children: ReactNode;
+}
+
+export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true); 
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -36,11 +45,20 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
         setIsLoading(false);
     }, []);
 
-    const login = (userData: User) => {
-        setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-    };
-    
+    const login = useCallback(async (userData: { email: string; password: string }) => {
+        setIsLoading(true)
+        setError(null)
+        try {
+            const response = await auth.login(userData)
+            console.log(response);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to login');
+            console.error('Error logging in:', err);
+        } finally {
+            setIsLoading(false)
+        }
+    }, [])
+
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");

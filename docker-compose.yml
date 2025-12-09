@@ -23,7 +23,6 @@ services:
       - "3001:3000"
     volumes:
       - ./backend:/usr/src/app
-      - backend_node_modules:/usr/src/app/node_modules
       - ./backend/package.json:/usr/src/app/package.json
       - ./backend/package-lock.json:/usr/src/app/package-lock.json
     command: sh -c "npm run start:dev"

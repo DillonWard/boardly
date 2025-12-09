@@ -24,11 +24,10 @@ export default function Login(){
         e.preventDefault();
         
         const userData = {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            email: formData.email
+            email: formData.email,
+            password: formData.password
         };
+        console.log(userData);
         
         login(userData);
         router.push('/dashboard');

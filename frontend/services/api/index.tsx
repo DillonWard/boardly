@@ -15,6 +15,20 @@ class ApiClient {
     return response.json();
   }
 
+  async post<T>(url: string, body?: any): Promise<T> {
+    const response = await fetch(`${this.baseUrl}/${url}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  }
+
 }
 
 export const api = new ApiClient(API_BASE_URL);

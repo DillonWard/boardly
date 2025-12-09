@@ -14,6 +14,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { useProjects } from '@/context/projects';
+import { useUsers } from '@/context/users';
 
 export const Sidebar = () => {
   const pathname = usePathname();
@@ -22,7 +23,8 @@ export const Sidebar = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   
-  const { projects, loading, fetchProjects } = useProjects();
+  const { projects, loading: projectsLoading, fetchProjects } = useProjects();
+  const { users, loading: usersLoading, fetchUsers } = useUsers();
 
   const toggleDropdown = (itemName: string, event: React.MouseEvent) => {
     if (openDropdowns.includes(itemName)) {
@@ -86,13 +88,14 @@ export const Sidebar = () => {
 
 useEffect(() => {
   fetchProjects();
+  fetchUsers()
 }, []);
 
 
   return (
     <div className="w-64 h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-300">
       <nav className="flex-1 overflow-y-auto p-4">
-        {loading && (
+        {projectsLoading && (
           <div className="flex items-center justify-center py-4">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
           </div>
