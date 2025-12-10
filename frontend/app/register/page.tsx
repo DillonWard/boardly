@@ -35,7 +35,6 @@ export default function Register() {
         }
 
         const userData = {
-            id: "1",
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email

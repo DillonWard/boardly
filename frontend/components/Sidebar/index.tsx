@@ -86,11 +86,6 @@ export const Sidebar = () => {
     };
   }, []);
 
-// useEffect(() => {
-//   fetchProjects();
-//   fetchUsers()
-// }, []);
-
 
   return (
     <div className="w-64 h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-300">

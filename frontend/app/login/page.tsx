@@ -30,7 +30,6 @@ export default function Login(){
             });
             router.push('/dashboard');
         } catch (error) {
-            // Handle login error
             console.error('Login failed:', error);
         }
     };
